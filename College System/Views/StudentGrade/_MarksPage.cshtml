@@ -1,0 +1,11 @@
+﻿@model IEnumerable<College_System.Models.CourseGrade>
+@foreach(var item in Model)
+{ 
+<div class="form-group">
+    <label class="control-label col-md-2">@item.Name</label>
+    <div class="col-md-10">
+        <input type="number" name="Mark_@item.Name" required pattern="[0-9]+" />
+        <input pattern="[0-9]" hidden value="@item.GradeID" name="@item.Name" />
+    </div>
+</div>
+}

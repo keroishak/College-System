@@ -1,0 +1,50 @@
+﻿@model College_System.Models.CourseMaterial
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CourseMaterial</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FilePath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FilePath)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cours.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cours.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaterialType.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaterialType.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MaterialID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,85 @@
+﻿@model College_System.Models.Cours
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>StudentGrade</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            <div class="form-group">
+                <div class="form-group">
+                    <label class = "control-label col-md-2">Course</label>
+                    <div class="col-md-10">
+                       @Html.DropDownList("Name", null, string.Empty, new { @onchange = "enable()" })
+                       @Html.ValidationMessageFor(model => model.Name)
+                    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Year</label>
+                    <div class="col-md-10">
+                        <input type="number" name="Year" required pattern="[0-9]+" />
+                    </div>
+                </div>
+                <div id="marks">
+                    
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    function enable() {
+        var element = document.getElementById("marks");
+        var droplist = document.getElementById("Name");
+        var Name=droplist.options[droplist.selectedIndex].value;
+        if ( Name!= "")
+        {
+            element.hidden = false;
+            $(function () {
+                $.ajax(
+                {
+                    type: "Post",
+                    url: '/StudentGrade/GetMarks',
+                    data:{ courseName:Name  }
+                })
+                .success(function (html) {
+                    //alert('success!');
+                    element.innerHTML = html;
+                })
+                 .fail(function () {
+                     alert('fail!');
+                 })
+            });
+        }
+            
+        else
+            element.hidden = true;
+    }
+</script>
+
+}
+
