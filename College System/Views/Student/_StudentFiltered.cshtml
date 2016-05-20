@@ -1,0 +1,69 @@
+﻿@model IEnumerable<College_System.Models.Student>
+<tr>
+    <th>
+        @Html.DisplayNameFor(model => model.Name)
+        <input name="Sname" id="Sname" type="text" hidden />
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.Email)
+        <input name="Semail" id="Semail" type="email" hidden />
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.AdmissionYear)
+        <input name="SAyear" id="SAyear" type="number" hidden />
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.GraduationYear)
+        <input name="SGyear" id="SGyear" type="number" hidden />
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.SerialID)
+        <input name="SID" id="SID" type="number" hidden />
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.AcademicYear.Name)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.AcademicYearSection.Name)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.Department.Name)
+    </th>
+    <th><button onclick="filter()" id="filterButton">Enable Filtration</button></th>
+</tr>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdmissionYear)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GraduationYear)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SerialID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AcademicYear.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AcademicYearSection.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Department.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.StudentID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.StudentID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.StudentID }) |
+            @Html.ActionLink("Courses", "Index", "StudentCourses", new { id = item.StudentID }, null) |
+            @Html.ActionLink("Grades", "Index", "StudentGrade", new { id = item.StudentID }, null)
+        </td>
+    </tr>
+}

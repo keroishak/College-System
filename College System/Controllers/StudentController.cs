@@ -15,7 +15,7 @@ namespace College_System.Controllers
         private Model db = new Model();
 
         // GET: /Student/
-        public ActionResult Index(Guid?id,string name)
+        public ActionResult Index(Guid? id, string name)
         {
             IQueryable<Student> students;
             if (id == null && name == null)
@@ -27,7 +27,7 @@ namespace College_System.Controllers
             else if (name == "section")
                 students = db.Students.Where(s => (s.SectionID == id));
             else if (name == "course")
-                students = db.Students.Where(s => s.StudentCourses.Any(e=>e.CourseID==id));
+                students = db.Students.Where(s => s.StudentCourses.Any(e => e.CourseID == id));
             else
                 return new HttpStatusCodeResult(HttpStatusCode.NotAcceptable);
             return View(students.ToList());
@@ -48,6 +48,41 @@ namespace College_System.Controllers
             return View(student);
         }
 
+        public ActionResult Filter(string FilterationString)
+        {
+            string[] filters = FilterationString.Split('|');
+            IQueryable<Student> students = db.Students;
+            string tmp;
+            if (filters[0] != "")
+            {
+                tmp = filters[0];
+                students = students.Where(s => s.Name.Contains(tmp));
+            }
+            if (filters[1] != "")
+            {
+                tmp = filters[1];
+                students = students.Where(s => s.Email.Contains(tmp));
+            }
+            if (filters[2] != "")
+            {
+                int AddYear = int.Parse(filters[2]);
+                students = students.Where(s => s.AdmissionYear == AddYear);
+            }
+            if (filters[3] != "")
+            {
+                int GradYear = int.Parse(filters[3]);
+                students = students.Where(s => s.GraduationYear == GradYear);
+            }
+            if (filters[4] != "")
+            {
+                tmp = filters[4];
+                students = students.Where(s => s.SerialID == tmp);
+            }
+            students=students.Include(s => s.AcademicYear).Include(s => s.AcademicYearSection).Include(s => s.Department);
+            var l = students.ToList();
+            return PartialView("_StudentFiltered", students.ToList());
+
+        }
         // GET: /Student/Create
         public ActionResult Create()
         {
@@ -62,7 +97,7 @@ namespace College_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="StudentID,Name,Email,AdmissionYear,GraduationYear,CurrentAcademicYearID,SectionID,SerialID,DepartmentID")] Student student)
+        public ActionResult Create([Bind(Include = "StudentID,Name,Email,AdmissionYear,GraduationYear,CurrentAcademicYearID,SectionID,SerialID,DepartmentID")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +136,7 @@ namespace College_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="StudentID,Name,Email,AdmissionYear,GraduationYear,CurrentAcademicYearID,SectionID,SerialID,DepartmentID")] Student student)
+        public ActionResult Edit([Bind(Include = "StudentID,Name,Email,AdmissionYear,GraduationYear,CurrentAcademicYearID,SectionID,SerialID,DepartmentID")] Student student)
         {
             if (ModelState.IsValid)
             {
